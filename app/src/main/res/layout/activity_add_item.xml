@@ -2,32 +2,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddItemActivity">
+    tools:context=".AddItemActivity"
+    android:background="@color/Background">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="200dp"
-        android:src="@mipmap/ic_launcher_round"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:src="@mipmap/stub" />
 
     <EditText
         android:id="@+id/titleEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите название"
         android:layout_below="@id/imageView"
-        android:layout_marginTop="20dp"/>
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:backgroundTint="@color/Background"
+        android:layout_marginTop="30dp"
+        android:hint="Введите название" />
 
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Введите описание"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:layout_below="@id/titleEditText"
-        android:layout_marginTop="20dp"/>
+        android:textColorHint="@color/black"
+        android:backgroundTint="@color/Background"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/addButton"
@@ -35,7 +44,9 @@
         android:layout_height="wrap_content"
         android:text="Добавить"
         android:layout_below="@id/descriptionEditText"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/buttonColor"/>
 
 </RelativeLayout>
