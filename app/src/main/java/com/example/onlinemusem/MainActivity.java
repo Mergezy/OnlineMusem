@@ -1,10 +1,16 @@
 package com.example.onlinemusem;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MuseumAdapter museumAdapter;
     private List<MuseumItem> museumItems;
+
+    private static final int REQUEST_CODE_ADD_ITEM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +35,43 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(museumAdapter);
 
-        // Добавление слушателя для обработки нажатий на элементы списка
         museumAdapter.setOnItemClickListener((position, view) -> {
             MuseumItem selectedItem = museumItems.get(position);
-
-            // Создание Intent для запуска DetailActivity
             Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("imageResourceId", selectedItem.getImageResourceId());
+            intent.putExtra("imageUri", selectedItem.getImageUri().toString());
             intent.putExtra("description", selectedItem.getDescription());
             startActivity(intent);
         });
+
+        // Добавление слушателя для кнопки "+"
+        Button addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(v -> {
+            Intent addItemIntent = new Intent(MainActivity.this, AddItemActivity.class);
+            startActivityForResult(addItemIntent, REQUEST_CODE_ADD_ITEM);
+        });
+    }
+
+    // Метод вызывается при получении результата от другой активности
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_ADD_ITEM && resultCode == RESULT_OK && data != null) {
+            // Получение данных из AddItemActivity и добавление нового элемента в список
+            String title = data.getStringExtra("title");
+            String description = data.getStringExtra("description");
+            Uri imageUri = Uri.parse(data.getStringExtra("imageUri"));
+
+            MuseumItem newItem = new MuseumItem(title, description, imageUri);
+            museumItems.add(newItem);
+            museumAdapter.notifyDataSetChanged();
+        }
     }
 
     private List<MuseumItem> generateSampleData() {
         List<MuseumItem> items = new ArrayList<>();
-        items.add(new MuseumItem("Painting 1", "Description 1", R.mipmap.images));
-        items.add(new MuseumItem("Painting 2", "Description 1", R.mipmap.image2));
-        items.add(new MuseumItem("Painting 1", "Икона является одной из древнейших русских домонгольских икон. По-видимому, еще в XVI веке произведение оказалось в Москве и на протяжении последующих столетий входило в убранство одного из храмов Московского Кремля. Возможно, оно было привезено из Новгорода в годы правления Ивана Грозного, неоднократно разорявшего этот город и вывозившего в столицу все его важнейшие святыни. Учитывая основные направления богословской мысли позднего XII века, можно думать, что в древности икона была частью оглавного деисусного чина, написанного на отдельных досках и предназначенного для убранства темплона алтарной преграды.\n" +
-                "\n" +
-                "Монументальность образа, тип широкого скульптурно вылепленного лика с крупными чертами и полными щеками, рисунок увеличенных миндалевидных глаз обнаруживают разительное сходство с отдельными ликами росписей капеллы Богородицы на Патмосе. Но еще ближе стилю и образу иконы одна из манер в росписи новгородской церкви Спаса Преображения на Нередице (1199). Не исключено, что «Ангел Златые власы» был одной из деисусных икон, стоявших на алтарной преграде этого храма. Историческая ситуация в Новгороде на рубеже XII–XIII веков, сильное влияние монументального искусства Византии объясняют появление в местной культуре памятника, отразившего ведущие стилистические течения и художественные вкусы, сложившиеся в столице в эпоху около 1200 года. Русский музей. От иконы до современности. СПб. 2015. С. 38.\n" +
-                "\n" +
-                "Древнейшая икона в собрании Русского музея, является одним из самых ярких памятников домонгольского времени. Большинство исследователей относят это произведение к новгородской школе иконописи. Икона изображает Архангела Гавриила, который \"един от великих князей небесных ... искони посылаем был Богом на Землю, он принес Адаму в Рай заповедь не вкушать от дерева познания добра и зла, ... он благовествовал Марии\".\n" +
-                "\n" +
-                "Характер образа и особенности письма свидетельствуют о глубокой связи с традициями искусства Византии. Золотые нити волос – символ величия и бессмертия в искусстве античного мира. Икона, очевидно, предназначалась для алтарной преграды и входила в состав деисусного чина.\n" +
-                "\n" +
-                "Деисус (греч. – моление) – композиция из трех (или более) икон, воплощающая мысль о заступничестве Богоматери, Иоанна Предтечи, архангелов Михаила и Гавриила, других святых перед Христом за грешное человечество. Икона реставрирована до 1926.", R.mipmap.ikon));
-
+        items.add(new MuseumItem("Painting 1", "Description 1", Uri.parse("android.resource://" + getPackageName() + "/" + R.mipmap.images)));
+        items.add(new MuseumItem("Икона", "Описание иконы...", Uri.parse("android.resource://" + getPackageName() + "/" + R.mipmap.ikon)));
         return items;
     }
 }

@@ -1,14 +1,16 @@
 package com.example.onlinemusem;
 
+import android.net.Uri;
+
 public class MuseumItem {
     private String title;
     private String description;
-    private int imageResourceId; // ID ресурса изображения
+    private Uri imageUri;
 
-    public MuseumItem(String title, String description, int imageResourceId) {
+    public MuseumItem(String title, String description, Uri imageUri) {
         this.title = title;
         this.description = description;
-        this.imageResourceId = imageResourceId;
+        this.imageUri = imageUri;
     }
 
     public String getTitle() {
@@ -19,8 +21,7 @@ public class MuseumItem {
         return description;
     }
 
-    public int getImageResourceId() {
-        return imageResourceId;
+    public Uri getImageUri() {
+        return imageUri;
     }
 }
-

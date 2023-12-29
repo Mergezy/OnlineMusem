@@ -1,5 +1,6 @@
 package com.example.onlinemusem;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -32,8 +33,9 @@ public class FullScreenImageActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int imageResourceId = extras.getInt("imageResourceId", 0);
-            imageFullScreen.setImageResource(imageResourceId);
+            String imageUriString = extras.getString("imageUri");
+            Uri imageUri = Uri.parse(imageUriString);
+            imageFullScreen.setImageURI(imageUri);
 
             btnZoomIn.setOnClickListener(new View.OnClickListener() {
                 @Override

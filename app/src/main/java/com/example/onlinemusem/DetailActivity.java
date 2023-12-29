@@ -1,6 +1,7 @@
 package com.example.onlinemusem;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,11 +24,12 @@ public class DetailActivity extends AppCompatActivity {
         // Получение данных из Intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int imageResourceId = extras.getInt("imageResourceId", 0);
             String description = extras.getString("description", "");
+            String imageUriString = extras.getString("imageUri");
+            Uri imageUri = Uri.parse(imageUriString);
 
-            detailImageView.setImageResource(imageResourceId);
-            detailDescriptionTextView.setText("");
+            detailImageView.setImageURI(imageUri);
+            detailDescriptionTextView.setText("Открыть описание..");
 
             // Добавление слушателя для двойного нажатия на изображение
             detailDescriptionTextView.setOnClickListener(new View.OnClickListener() {
@@ -36,34 +38,35 @@ public class DetailActivity extends AppCompatActivity {
                     long clickTime = System.currentTimeMillis();
                     if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
                         // Двойное нажатие - открытие полноэкранного описания
-                        openFullScreenDescription(description,imageResourceId);
+                        openFullScreenDescription(description, imageUri);
                     }
                     lastClickTime = clickTime;
                 }
             });
+
             detailImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     long clickTime = System.currentTimeMillis();
                     if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
                         // Двойное нажатие - открытие полноэкранного описания
-                        openFullScreenImage(imageResourceId);
+                        openFullScreenImage(imageUri);
                     }
                     lastClickTime = clickTime;
                 }
             });
         }
     }
-
-    private void openFullScreenDescription(String description, int imageResourceId) {
+    private void openFullScreenDescription(String description, Uri imageUri) {
         Intent intent = new Intent(this, FullScreenDescriptionActivity.class);
         intent.putExtra("description", description);
-        intent.putExtra("imageResourceId", imageResourceId);
+        intent.putExtra("imageUri", imageUri.toString());
         startActivity(intent);
     }
-    private void openFullScreenImage(int imageResourceId) {
+
+    private void openFullScreenImage(Uri imageUri) {
         Intent intent = new Intent(this, FullScreenImageActivity.class);
-        intent.putExtra("imageResourceId", imageResourceId);
+        intent.putExtra("imageUri", imageUri.toString());
         startActivity(intent);
     }
 }

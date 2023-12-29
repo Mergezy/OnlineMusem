@@ -1,5 +1,6 @@
 package com.example.onlinemusem;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,9 +20,9 @@ public class FullScreenDescriptionActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String description = extras.getString("description", "");
-            int imageResourceId = extras.getInt("imageResourceId", 0);
-
-            backgroundImageView.setImageResource(imageResourceId);
+            String imageUriString = extras.getString("imageUri");
+            Uri imageUri = Uri.parse(imageUriString);
+            backgroundImageView.setImageURI(imageUri);
             fullScreenDescriptionTextView.setText(description);
 
             // Добавление слушателя для закрытия активити при нажатии на описание

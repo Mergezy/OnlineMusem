@@ -6,12 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.MuseumViewHolder> {
-
     private List<MuseumItem> museumItems;
     private Context context;
     private OnItemClickListener onItemClickListener;
@@ -30,13 +31,12 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.MuseumView
 
     @Override
     public void onBindViewHolder(@NonNull MuseumViewHolder holder, int position) {
-        int actualPosition = position % museumItems.size(); // Получаем элемент по модулю
-
+        int actualPosition = position % museumItems.size();
         MuseumItem museumItem = museumItems.get(actualPosition);
-        holder.titleTextView.setText(museumItem.getTitle());
-        holder.imageView.setImageResource(museumItem.getImageResourceId());
 
-        // Добавление обработчика нажатия на элемент списка
+        holder.titleTextView.setText(museumItem.getTitle());
+        holder.imageView.setImageURI(museumItem.getImageUri());
+
         holder.itemView.setOnClickListener(view -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(actualPosition, view);
@@ -46,7 +46,6 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.MuseumView
 
     @Override
     public int getItemCount() {
-        // Устанавливаем максимальное значение, чтобы RecyclerView был бесконечным
         return Integer.MAX_VALUE;
     }
 
@@ -61,12 +60,10 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.MuseumView
         }
     }
 
-    // Интерфейс для обработки нажатий на элементы списка
     public interface OnItemClickListener {
         void onItemClick(int position, View view);
     }
 
-    // Метод для установки слушателя
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }

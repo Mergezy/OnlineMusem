@@ -25,11 +25,17 @@
             android:name=".DetailActivity">
         </activity>
         <activity
+            android:name=".AddItemActivity">
+        </activity>
+        <activity
             android:name=".FullScreenDescriptionActivity">
         </activity>
         <activity
             android:name=".FullScreenImageActivity">
         </activity>
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:ignore="ManifestOrder"
+        android:maxSdkVersion="32" />
 
 </manifest>
