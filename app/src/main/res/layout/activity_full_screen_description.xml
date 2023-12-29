@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:background="@color/limpidBlack">
+        android:background="@color/buttonColor">
 
         <TextView
             android:id="@+id/fullScreenDescriptionTextView"
@@ -24,7 +24,7 @@
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="24sp"
             android:lineSpacingExtra="8dp"
             android:gravity="bottom" />

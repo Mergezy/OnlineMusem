@@ -18,6 +18,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:padding="16dp"
-        android:background="@color/limpidBlack"
-        android:textColor="@color/white"/>
+        android:background="@color/buttonColor"
+        android:textColor="@color/black"/>
 </RelativeLayout>
